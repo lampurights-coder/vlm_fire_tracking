@@ -57,7 +57,7 @@ docker run --rm -it --gpus all -p 8033:8033 -p 9007:9007 fire-detection-system
 ### Access the Interfaces
 1. **Gradio Web Interface**: `http://localhost:9007`
 2. **VLM API Server**: `http://localhost:8033`
-![Alt text for accessibility](Screenshot from 2025-12-31 10-21-35.png)
+
 
 ## 🌐 Web Interface Guide
 
@@ -209,3 +209,4 @@ For issues and questions:
 ---
 
 **Note**: This system is designed for research and demonstration purposes. Always verify fire detection with multiple systems in production environments.
+![Alt text for accessibility](Screenshot from 2025-12-31 10-21-35.png)

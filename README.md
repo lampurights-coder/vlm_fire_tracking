@@ -22,8 +22,8 @@ The system consists of three main components:
 2. **Tracking Engine**: DINOv3 + BotSort for consistent fire tracking
 3. **Web Interface**: Gradio-based UI for real-time monitoring
 
-## ⚙️ Technical Architecture
-Detection Pipeline
+## ⚙️ Technical Architecture - Detection Pipeline
+
 ![Logo](alogrithem.png)
 
 

@@ -1,0 +1,4 @@
+*.safetensors
+*.mp4
+*.gguf
+output/

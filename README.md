@@ -202,4 +202,4 @@ For issues and questions:
 
 **Note**: This system is designed for research and demonstration purposes. Always verify fire detection with multiple systems in production environments.
 
-![Logo](Screenshot from 2025-12-31 10-21-35.png)
+![Logo](gradio_result.png)

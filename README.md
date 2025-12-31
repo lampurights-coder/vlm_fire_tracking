@@ -172,13 +172,6 @@ To update the VLM model:
 3. Update model name in `start.sh`
 4. Rebuild Docker image
 
-## 📈 Performance
-
-- **Processing Speed**: ~10-20 FPS (depends on GPU)
-- **Detection Accuracy**: ~85% on test datasets
-- **Memory Usage**: ~6GB GPU, ~4GB CPU
-- **Latency**: <200ms per frame
-
 ## 🤝 Contributing
 
 1. Fork the repository

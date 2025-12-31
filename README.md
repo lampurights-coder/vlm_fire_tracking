@@ -22,6 +22,11 @@ The system consists of three main components:
 2. **Tracking Engine**: DINOv3 + BotSort for consistent fire tracking
 3. **Web Interface**: Gradio-based UI for real-time monitoring
 
+## ⚙️ Technical Architecture
+Detection Pipeline
+![Logo](alogrithem.png)
+
+
 ## 📋 Prerequisites
 
 - NVIDIA GPU with CUDA support
@@ -196,7 +201,7 @@ To update the VLM model:
 For issues and questions:
 1. Check [Troubleshooting](#-troubleshooting) section
 2. Open GitHub Issue
-3. Contact: [Your Contact Info]
+3. Contact: [larshiakazemil@gmail.com]
 
 ---
 

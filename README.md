@@ -1,135 +1,212 @@
-🔥 Fire Detection & Tracking System
-![Fire Detection Logo](
+![Logo](vl_din.png)
 
-A real-time fire detection and tracking system combining Vision Language Model (VLM) for detection with DINOv3 patch similarity and BotSort for tracking. Processes video streams in real-time through a Gradio web interface.
+# 🔥 Fire Detection & Tracking System
 
-🚀 Features
-Multi-Model Detection: Fine-tuned Qwen3-VL for precise fire detection
+## Overview
+A real-time fire detection and tracking system that combines Vision Language Model (VLM) for detection with DINOv3 patch similarity and BotSort for tracking. The system processes video streams in real-time with a Gradio web interface.
 
-Intelligent Tracking: DINOv3 patch similarity + BotSort multi-object tracking
+## 🚀 Features
 
-Real-time Processing: Live frame-by-frame processing with visual feedback
+- **Multi-Model Detection**: Uses fine-tuned Qwen3-VL model for fire detection
+- **Intelligent Tracking**: Combines DINOv3 patch similarity with BotSort multi-object tracking
+- **Real-time Processing**: Live frame-by-frame processing with visual feedback
+- **Multiple Input Sources**: Supports video files and RTSP streams
+- **Web Interface**: User-friendly Gradio interface for easy interaction
+- **Dockerized**: Easy deployment with GPU support
 
-Multiple Input Sources: Video files + RTSP streams
+## 🏗️ Architecture
 
-Web Interface: User-friendly Gradio UI
+The system consists of three main components:
 
-Dockerized: Easy GPU deployment
+1. **VLM Detection Server**: Llama.cpp server running fine-tuned Qwen3-VL model
+2. **Tracking Engine**: DINOv3 + BotSort for consistent fire tracking
+3. **Web Interface**: Gradio-based UI for real-time monitoring
 
-🏗️ Architecture
-text
-┌─────────────────┐    ┌──────────────────┐    ┌─────────────────┐
-│  Gradio Web UI  │◄──►│  Tracking Engine │◄──►│ VLM Detection   │
-│   (Port 9007)   │    │ (DINOv3+BotSort) │    │ Server (Port    │
-└─────────────────┘    └──────────────────┘    │ 8033)           │
-                                               └─────────────────┘
-📋 Prerequisites
-NVIDIA GPU with CUDA 12+
+## 📋 Prerequisites
 
-Docker & Docker Compose
+- NVIDIA GPU with CUDA support
+- Docker & Docker Compose
+- At least 8GB GPU memory
+- 16GB+ system RAM
 
-8GB+ GPU memory
+## 🛠️ Installation
 
-16GB+ system RAM
+### 1. Clone Repository
+```bash
+git clone <your-repository>
+cd <project-directory>
+```
 
-🛠️ Quick Start
-1. Clone & Prepare
-bash
-git clone https://github.com/lampurights-coder/vlm_fire_tracking.git
-cd vlm_fire_tracking
+### 2. Prepare Model Weights
+Place your model files in the `weights/` directory:
+- `larshiakzemil_unsloth_finetune_qwen3-vl-8b-instruct.Q8_0.gguf`
+- `larshiakzemil_unsloth_finetune_qwen3-vl-8b-thinking.BF16-mmproj.gguf`
 
-# Copy model weights to weights/
-# - larshiakzemil_unsloth_finetune_qwen3-vl-8b-instruct.Q8_0.gguf
-# - larshiakzemil_unsloth_finetune_qwen3-vl-8b-thinking.BF16-mmproj.gguf
-2. Build & Run
-bash
+### 3. Build Docker Image
+```bash
 docker build -t fire-detection-system .
-docker run --rm -it --gpus all \
-  -p 8033:8033 -p 9007:9007 \
-  -v $(pwd)/output:/app/output \
-  fire-detection-system
-3. Access Interfaces
-🎥 Gradio UI: http://localhost:9007
+```
 
-🔍 VLM API: http://localhost:8033
+## 🚀 Usage
 
-🌐 Web Interface
-Tab	Action	Example
-📁 Upload File	Upload MP4/AVI/MOV	fire_test.mp4
-🌐 RTSP URL	Enter stream URL	rtsp://192.168.1.100/stream
-▶️ Start	Begin real-time processing	Live detection + tracking
-Detection Legend:
+### Start the System
+```bash
+docker run --rm -it --gpus all -p 8033:8033 -p 9007:9007 fire-detection-system
+```
 
-🟥 Red Box: DINOv3 patch tracking
+### Access the Interfaces
+1. **Gradio Web Interface**: `http://localhost:9007`
+2. **VLM API Server**: `http://localhost:8033`
 
-🔵 Blue Box + ID: BotSort tracker
+## 🌐 Web Interface Guide
 
-🟢 Green Box: VLM fire detection
+### 1. Upload Video
+- Navigate to the "Upload File" tab
+- Select a video file (MP4, AVI, MOV)
+- Click "Upload & Update Config"
 
-🟡 Yellow Text: "Searching for fire..."
+### 2. Use RTSP Stream
+- Navigate to the "RTSP URL" tab
+- Enter RTSP URL (e.g., `rtsp://camera-ip/stream`)
+- Click "Set RTSP URL"
 
-![Demo Screenshot](Screenshot_from_2025-12-31 ⚙️ Configuration
+### 3. Start Processing
+- Click "Start Processing" button
+- Watch real-time detection in the video window
+- Processing status updates live
 
-config.yaml:
+### 4. Stop Processing
+- Click "Stop" button anytime to halt processing
 
-text
+## 📊 Detection Legend
+
+- **Red Box**: DINO patch similarity tracking
+- **Blue Box**: BotSort tracker with object ID
+- **Yellow Text**: System is searching for fire
+- **Green Box**: VLM detection results
+
+## 🔧 Configuration
+
+### Config File Location
+`./configs/config.yaml`
+
+### Key Parameters
+```yaml
 sources:
   - id: 11
-    url: "rtsp://camera-ip/stream"  # or local video path
-    fps: 30
+    url: /path/to/video.mp4  # Video source
+    fps: 30                  # Frame rate
+```
 
-vlm:
-  server_url: "http://localhost:8033"
-  confidence_threshold: 0.6
-  detection_interval: 5  # seconds
-🐛 Troubleshooting
-Issue	Solution
-GPU OOM	docker run ... -e MAX_BATCH_SIZE=1
-VLM not responding	curl http://localhost:8033/health
-No detections	Lower confidence_threshold to 0.4
-Slow FPS	Use smaller model or reduce top_k_patches
-View logs:
+### VLM Settings
+- Detection interval: 5 seconds
+- Confidence threshold: 0.6
+- Top-K patches: 10
 
-bash
-docker logs <container_id> -f
-📈 Performance Metrics
-Metric	Value
-FPS	10-20 (RTX 4090)
-Accuracy	~85% on test sets
-GPU Memory	~6GB
-Latency	<200ms/frame
-🔄 Model Updates
-Convert new model: llama.cpp/convert.py
+## 📁 Project Structure
 
-Place in weights/
-
-Update start.sh: MODEL_NAME="new-model.gguf"
-
-Rebuild: docker build -t fire-detection-system .
-
-📁 Project Structure
-text
-vlm_fire_tracking/
-├── weights/                 # GGUF model files
-├── configs/config.yaml      # System config
+```
+.
+├── weights/                 # Model weights
+├── configs/                 # Configuration files
+├── output/                  # Processed videos
+├── uploaded_videos/         # User uploaded videos
 ├── src/
-│   ├── detector.py         # VLM detection
-│   ├── dino.py            # Patch similarity
-│   └── botsort_tracker.py # Multi-object tracking
-├── gradio_app.py           # Web interface
-├── Dockerfile
-├── start.sh
-└── output/                 # Processed videos
-🤝 Contributing & License
-text
-MIT License - Fork, modify, deploy!
-See CONTRIBUTING.md for details.
-Credits:
+│   ├── detector.py         # VLM detection module
+│   ├── dino.py            # DINOv3 similarity module
+│   └── frame_gather.py    # Frame synchronization
+├── gradio_video.py         # Main Gradio application
+├── requirements.txt        # Python dependencies
+├── Dockerfile             # Docker configuration
+├── start.sh              # Startup script
+└── config.yaml           # Main configuration
+```
 
-Qwen3-VL - Fire detection
+## ⚙️ Technical Details
 
-DINOv3 - Patch tracking
+### Detection Pipeline
+1. **VLM Detection**: Every 5 seconds, frame is sent to Qwen3-VL model
+2. **Bounding Box Extraction**: Parse `<locXXX>` tokens from model output
+3. **Center Calculation**: Find center of largest detected fire region
+4. **DINO Tracking**: Use patch similarity to track fire across frames
+5. **BotSort Tracking**: Multi-object tracking with ID consistency
 
-BoxMOT - BotSort
+### Models Used
+- **Qwen3-VL-8B**: Fine-tuned for fire detection
+- **DINOv3 ConvNeXt Tiny**: Patch similarity
+- **BotSort**: Multi-object tracking
 
-⚠️ Production Note: Always use multiple detection systems and human verification for critical fire safety applications.
+## 🐛 Troubleshooting
+
+### Common Issues
+
+1. **GPU Memory Error**:
+   ```bash
+   # Reduce batch size
+   docker run --rm -it --gpus all -p 8033:8033 -p 9007:9007 \
+     -e CUDA_VISIBLE_DEVICES=0 fire-detection-system
+   ```
+
+2. **VLM Server Not Starting**:
+   ```bash
+   # Check if ports are available
+   netstat -tulpn | grep 8033
+   ```
+
+3. **No Detection Results**:
+   - Check VLM server is running at `http://localhost:8033`
+   - Verify model weights are correctly loaded
+   - Adjust detection threshold in code
+
+### Logs
+Check Docker logs:
+```bash
+docker logs <container_id>
+```
+
+## 🔄 Updating Models
+
+To update the VLM model:
+1. Convert new model to GGUF format
+2. Place in `weights/` directory
+3. Update model name in `start.sh`
+4. Rebuild Docker image
+
+## 📈 Performance
+
+- **Processing Speed**: ~10-20 FPS (depends on GPU)
+- **Detection Accuracy**: ~85% on test datasets
+- **Memory Usage**: ~6GB GPU, ~4GB CPU
+- **Latency**: <200ms per frame
+
+## 🤝 Contributing
+
+1. Fork the repository
+2. Create feature branch
+3. Commit changes
+4. Push to branch
+5. Create Pull Request
+
+## 📝 License
+
+[Your License Here]
+
+## 🙏 Acknowledgments
+
+- [Llama.cpp](https://github.com/ggerganov/llama.cpp) for efficient inference
+- [Qwen Team](https://github.com/QwenLM/Qwen) for Qwen3-VL model
+- [Meta Research](https://github.com/facebookresearch/dinov2) for DINOv3
+- [BoxMOT](https://github.com/mikel-brostrom/boxmot) for BotSort implementation
+
+## 📞 Support
+
+For issues and questions:
+1. Check [Troubleshooting](#-troubleshooting) section
+2. Open GitHub Issue
+3. Contact: [Your Contact Info]
+
+---
+
+**Note**: This system is designed for research and demonstration purposes. Always verify fire detection with multiple systems in production environments.
+
+![Logo](Screenshot from 2025-12-31 10-21-35.png)

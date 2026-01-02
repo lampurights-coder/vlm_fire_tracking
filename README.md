@@ -38,8 +38,8 @@ The system consists of three main components:
 
 ### 1. Clone Repository
 ```bash
-git clone <your-repository>
-cd <project-directory>
+git clone https://github.com/lampurights-coder/vlm_fire_tracking.git
+cd vlm_fire_tracking
 ```
 
 ### 2. Prepare Model Weights

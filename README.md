@@ -26,6 +26,8 @@ The system consists of three main components:
 
 ![Logo](alogrithem.png)
 
+## 🤗 Hugging Face
+[My Hugging Face Model](https://huggingface.co/larshiakzemil/unsloth_finetune)
 
 ## 📋 Prerequisites
 

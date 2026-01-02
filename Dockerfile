@@ -20,7 +20,7 @@ RUN mkdir -p /app/weights
 COPY weights/*.gguf /app/weights/
 
 # Expose your API port
-EXPOSE 8765 8033
+EXPOSE 8765 8033 9007 9007
 
 # Internal communication
 ENV VLM_SERVER_URL=http://localhost:8033/v1/chat/completions

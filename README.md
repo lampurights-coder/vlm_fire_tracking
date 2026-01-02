@@ -29,6 +29,14 @@ The system consists of three main components:
 ## 🤗 Hugging Face
 [My Hugging Face Model](https://huggingface.co/larshiakzemil/unsloth_finetune)
 
+Create a weights/ folder
+
+Download one GGUF (4-bit / 5-bit / 8-bit)
+
+Download the mmproj file for image support
+
+Compatible with llama.cpp, LM Studio, and similar tools
+
 ## 📋 Prerequisites
 
 - NVIDIA GPU with CUDA support
